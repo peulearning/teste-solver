@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import type React from "react"
 import { createContext, useContext, useState, type ReactNode } from "react"
 
@@ -6,12 +5,14 @@ interface Product {
   id: number
   name: string
   price: number
+  active?: boolean
 }
 
 interface ProductContextType {
   products: Product[]
   addProduct: (product: Product) => void
   updateProduct: (product: Product) => void
+  deleteProduct: (id: number) => void
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined)
@@ -35,6 +36,14 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     setProducts(products.map((p) => (p.id === updatedProduct.id ? updatedProduct : p)))
   }
 
-  return <ProductContext.Provider value={{ products, addProduct, updateProduct }}>{children}</ProductContext.Provider>
+  const deleteProduct = (id: number) => {
+    setProducts(products.filter((p) => p.id !== id))
+  }
+
+  return (
+    <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct }}>
+      {children}
+    </ProductContext.Provider>
+  )
 }
 
