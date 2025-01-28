@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using BackendApp.Data;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;  // Adicione esta linha para o ServerVersion
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using BackendApp.Repositories;
+using BackendApp.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     )
 );
+
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
 var app = builder.Build();
 app.MapControllers();
