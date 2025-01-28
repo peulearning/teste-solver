@@ -1,5 +1,6 @@
 using BackendApp.Models;
 using BackendApp.Repositories;
+
 namespace BackendApp.Services
 {
     public class ProdutoService : IProdutoService
