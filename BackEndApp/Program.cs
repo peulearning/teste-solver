@@ -4,7 +4,6 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using BackendApp.Repositories;
 using BackendApp.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicionando DbContext com MySQL
@@ -15,11 +14,38 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-builder.Services.AddControllers();
-
+// Adicionando serviços e repositórios
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
+// Adicionando CORS para permitir qualquer origem, método e cabeçalho
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin() // Permitir qualquer origem
+               .AllowAnyMethod() // Permitir qualquer método
+               .AllowAnyHeader()); // Permitir qualquer cabeçalho
+});
+
+// Adicionando controllers
+builder.Services.AddControllers();
+
 var app = builder.Build();
-app.MapControllers();
+
+// Configurando o pipeline de requisição
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+// Habilitando CORS para todas as requisições
+app.UseCors("AllowAll");
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.Run();
