@@ -2,6 +2,7 @@ import type React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Typography, TextField, Button } from "@mui/material"
+import Layout from "../components/Layout"; // Importação padrão
 import axios from "axios" // Importando axios
 
 function CadastroProduto() {
@@ -27,6 +28,7 @@ function CadastroProduto() {
   }
 
   return (
+    <Layout>
     <div>
       <Typography variant="h4" gutterBottom>
         Cadastro de Produto
@@ -47,6 +49,7 @@ function CadastroProduto() {
         </Button>
       </form>
     </div>
+    </Layout>
   )
 }
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout"; // Importação padrão
 import { Link } from "react-router-dom";
+
 import {
   Typography,
   Table,
@@ -23,12 +25,10 @@ function ListaProdutos() {
   const [loading, setLoading] = useState(true); // Estado de carregamento
   const [error, setError] = useState<string | null>(null); // Estado de erro
 
-  // Função para buscar todos os produtos
   const fetchProducts = async () => {
     try {
       const response = await axios.get(API_URL);
       setProducts(response.data); // Atualiza os produtos com os dados da API
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Erro ao carregar produtos"); // Exibe um erro se algo falhar
     } finally {
@@ -36,7 +36,6 @@ function ListaProdutos() {
     }
   };
 
-  // Função para buscar um produto por ID
   const fetchProductById = async () => {
     if (!searchId) {
       fetchProducts(); // Se o campo de ID estiver vazio, busca todos os produtos
@@ -46,7 +45,6 @@ function ListaProdutos() {
     try {
       const response = await axios.get(`${API_URL}/${searchId}`);
       setProducts([response.data]); // Atualiza a lista com apenas o produto retornado
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Produto não encontrado ou erro na busca por ID");
     }
@@ -56,7 +54,6 @@ function ListaProdutos() {
     fetchProducts(); // Busca todos os produtos ao montar o componente
   }, []);
 
-  // Filtragem por nome
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -65,7 +62,7 @@ function ListaProdutos() {
   if (error) return <Typography color="error">{error}</Typography>; // Exibe erro
 
   return (
-    <div>
+    <Layout> {/* Envolve o conteúdo com o Layout */}
       <Typography variant="h4" gutterBottom>
         Lista de Produtos
       </Typography>
@@ -118,7 +115,7 @@ function ListaProdutos() {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Layout>
   );
 }
 

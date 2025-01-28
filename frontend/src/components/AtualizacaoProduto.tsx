@@ -2,6 +2,7 @@ import type React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography, TextField, Button } from "@mui/material";
+import Layout from "../components/Layout"; // Importação padrão
 
 function AtualizacaoProduto() {
   const { id } = useParams<{ id: string }>();
@@ -68,7 +69,7 @@ function AtualizacaoProduto() {
   };
 
   return (
-    <div>
+    <Layout>
       <Typography variant="h4" gutterBottom>
         Atualização de Produto
       </Typography>
@@ -96,7 +97,7 @@ function AtualizacaoProduto() {
           Atualizar
         </Button>
       </form>
-    </div>
+    </Layout>
   );
 }
 
