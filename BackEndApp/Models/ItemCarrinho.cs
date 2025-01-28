@@ -1,7 +1,11 @@
-public class ItemCarrinho
+namespace BackendApp.Models
 {
-  public int carrinho_id {get; set;}
-  public Carrinho carrinho {get; set;}
-  public int item_id {get; set;}
-  pulbic Item item {get; set;}
+    public class ItemCarrinho
+    {
+        public int Id { get; set; }
+        public int CarrinhoId { get; set; }
+        public Carrinho Carrinho { get; set; } = new Carrinho();
+        public int ItemId { get; set; }
+        public Item Item { get; set; } = new Item();
+    }
 }

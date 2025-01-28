@@ -1,8 +1,10 @@
-public class Item
+namespace BackendApp.Models
 {
-  public int UUID {get; set;}
-  public int produto_id {get; set;}
-  public Produto Produto { get; set;}
-  public int quantidade {get; set;}
-  public String unidade_medida {get; set;}
+    public class Item
+    {
+        public int Id { get; set; }
+        public int ProdutoId { get; set; }
+        public Produto Produto { get; set; } = new Produto();
+        public int Quantidade { get; set; }
+    }
 }

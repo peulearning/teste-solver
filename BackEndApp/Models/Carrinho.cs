@@ -1,6 +1,9 @@
-public class Carrinho
+namespace BackendApp.Models
 {
-  public int UUID {get; set;}
-  public String identificador {get; set;}
-  public ICollection<ItemCarrinho> ItensCarrinho {get; set;}
+    public class Carrinho
+    {
+        public int Id { get; set; }
+        public string Identificador { get; set; } = string.Empty;
+        public ICollection<ItemCarrinho> ItensCarrinho { get; set; } = new List<ItemCarrinho>();
+    }
 }

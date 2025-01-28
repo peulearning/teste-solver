@@ -1,5 +1,8 @@
-public class Produto
+namespace BackendApp.Models
 {
-  public int UUID {get; set;}
-  public String Name {get; set;}
+    public class Produto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }
