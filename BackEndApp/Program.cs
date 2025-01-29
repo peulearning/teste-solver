@@ -6,6 +6,9 @@ using BackendApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+
 // Adicionando DbContext com MySQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
@@ -17,6 +20,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Adicionando serviços e repositórios
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
+
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemService, ItemService>();
+
 
 // Adicionando CORS para permitir qualquer origem, método e cabeçalho
 builder.Services.AddCors(options =>

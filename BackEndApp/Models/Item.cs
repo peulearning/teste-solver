@@ -4,7 +4,9 @@ namespace BackendApp.Models
     {
         public int Id { get; set; }
         public int ProdutoId { get; set; }
-        public Produto Produto { get; set; } = new Produto();
         public int Quantidade { get; set; }
+        public string UnidadeMedida { get; set; } = string.Empty;
+
+        public Produto Produto { get; set; }
     }
 }

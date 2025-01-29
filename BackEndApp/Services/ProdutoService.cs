@@ -36,5 +36,11 @@ namespace BackendApp.Services
         {
             _produtoRepository.Delete(id);
         }
+
+        public Produto GetProdutoById(int id)
+        {
+            return _produtoRepository.GetById(id);
+        }
+
     }
 }
