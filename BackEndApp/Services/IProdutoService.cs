@@ -8,5 +8,6 @@ namespace BackendApp.Services
         void AddProduto(Produto produto);
         void UpdateProduto(Produto produto);
         void DeleteProduto(int id);
+        Produto GetProdutoById(int id);
     }
 }

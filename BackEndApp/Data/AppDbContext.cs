@@ -9,5 +9,16 @@ namespace BackendApp.Data
         {
         }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Item> Itens { get; set; }
+
+           protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Item>()
+                .HasOne(i => i.Produto)
+                .WithMany(p => p.Itens)
+                .HasForeignKey(i => i.ProdutoId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
