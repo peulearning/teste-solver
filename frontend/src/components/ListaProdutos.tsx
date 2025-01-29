@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout"; // Importação padrão
 import { Link } from "react-router-dom";
@@ -18,12 +19,18 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5220/api/produto"; // URL da sua API
 
+// Definindo a interface Product
+interface Product {
+  id: number;
+  name: string;
+}
+
 function ListaProdutos() {
-  const [products, setProducts] = useState([]); // Estado para armazenar os produtos
-  const [searchTerm, setSearchTerm] = useState(""); // Estado de busca por nome
-  const [searchId, setSearchId] = useState(""); // Estado de busca por ID
-  const [loading, setLoading] = useState(true); // Estado de carregamento
-  const [error, setError] = useState<string | null>(null); // Estado de erro
+  const [products, setProducts] = useState<Product[]>([]); 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchId, setSearchId] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchProducts = async () => {
     try {
