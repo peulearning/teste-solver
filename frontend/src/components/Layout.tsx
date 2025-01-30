@@ -39,8 +39,8 @@ function Layout({ children }: LayoutProps) {
       <StyledDrawer variant="permanent">
         <Box sx={{ p: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
-            <ProductIcon sx={{ fontSize: 32, color: "#7c3aed" }} />
-            <Typography variant="h6" sx={{ ml: 1, color: "#7c3aed" }}>
+            <ProductIcon sx={{ fontSize: 32, color: "#150f1f" }} />
+            <Typography variant="h6" sx={{ ml: 1, color: "#0b0712" }}>
               MarketPlace
             </Typography>
           </Box>
@@ -52,11 +52,11 @@ function Layout({ children }: LayoutProps) {
                 onClick={() => navigate(item.path)}
               >
                 <ListItemIcon>
-                  <item.icon sx={{ color: location.pathname.startsWith(item.path) ? "#7c3aed" : "inherit" }} />
+                  <item.icon sx={{ color: location.pathname.startsWith(item.path) ? "#030206" : "inherit" }} />
                 </ListItemIcon>
                 <ListItemText
                   primary={item.text}
-                  sx={{ color: location.pathname.startsWith(item.path) ? "#7c3aed" : "inherit" }}
+                  sx={{ color: location.pathname.startsWith(item.path) ? "#000000" : "inherit" }}
                 />
               </ListItemButton>
             ))}
