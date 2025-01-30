@@ -30,7 +30,8 @@ interface Item {
 function ListaItens() {
   const [items, setItems] = useState<Item[]>([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [searchId, setSearchId] = useState("")
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState("")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -49,25 +50,7 @@ function ListaItens() {
     }
   }
 
-  const fetchItemById = async () => {
-    if (!searchId) {
-      fetchItems()
-      return
-    }
 
-    setLoading(true)
-    setError(null)
-    try {
-      const response = await axios.get<Item>(`${API_URL}/${searchId}`)
-      setItems([response.data])
-    } catch (err) {
-      console.error("Erro ao buscar item por ID:", err)
-      setError("Item não encontrado ou erro na busca por ID.")
-      setItems([])
-    } finally {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
     fetchItems()
@@ -89,7 +72,7 @@ function ListaItens() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <TextField
+        {/* <TextField
           label="Buscar por ID do Item"
           variant="outlined"
           fullWidth
@@ -99,9 +82,9 @@ function ListaItens() {
           onKeyPress={(e) => {
             if (e.key === "Enter") fetchItemById()
           }}
-        />
-        <Button variant="contained" color="primary" onClick={fetchItemById} sx={{ mt: 1 }}>
-          Buscar por ID do Item
+        /> */}
+        <Button variant="contained" color="primary" onClick={fetchItems} sx={{ mt: 1 }}>
+          Buscar por ID do Produto
         </Button>
       </Box>
 
