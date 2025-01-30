@@ -4,6 +4,9 @@ import Dashboard from "./components/Dashboard"
 import ListaProdutos from "./components/ListaProdutos"
 import CadastroProduto from "./components/CadastroProduto"
 import AtualizacaoProduto from "./components/AtualizacaoProduto"
+import CadastroItem from "./components/CadastroItem"
+import ListaItens from "./components/ListaItens"
+import AtualizacaoItem from "./components/AtualizacaoItem"
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
           <Route path="/produtos" element={<ListaProdutos />} />
           <Route path="/cadastro" element={<CadastroProduto />} />
           <Route path="/atualizar/:id" element={<AtualizacaoProduto />} />
+          <Route path="/itens/cadastro" element={<CadastroItem />} />
+          <Route path="/itens" element={<ListaItens />} />
+          <Route path="/itens/atualizar/:id" element={<AtualizacaoItem />} />
         </Routes>
       </Box>
     </Router>

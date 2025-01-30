@@ -74,17 +74,17 @@ function Dashboard() {
       <StyledDrawer variant="permanent">
         <Box sx={{ p: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
-            <ProductIcon sx={{ fontSize: 32, color: "#7c3aed" }} />
-            <Typography variant="h6" sx={{ ml: 1, color: "#7c3aed" }}>
+            <ProductIcon sx={{ fontSize: 32, color: "#ed3a79" }} />
+            <Typography variant="h6" sx={{ ml: 1, color: "#ed3a88" }}>
               MarketPlace
             </Typography>
           </Box>
           <MuiList>
             <ListItemButton selected onClick={() => navigate("/produtos")}>
               <ListItemIcon>
-                <ProductIcon sx={{ color: "#7c3aed" }} />
+                <ProductIcon sx={{ color: "#ed3a7c" }} />
               </ListItemIcon>
-              <ListItemText primary="Produtos" sx={{ color: "#7c3aed" }} />
+              <ListItemText primary="Produtos" sx={{ color: "#ed3a64" }} />
             </ListItemButton>
             <ListItemButton onClick={() => navigate("/itens")}>
               <ListItemIcon>
@@ -121,6 +121,18 @@ function Dashboard() {
             </Button>
             <Button variant="contained" color="primary" onClick={() => navigate("/produtos")} sx={{ mr: 1 }}>
               Listar Produto
+            </Button>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
+          <Typography variant="h6">Itens</Typography>
+          <Box>
+            <Button variant="contained" color="secondary" onClick={() => navigate("/itens/cadastro")} sx={{ mr: 1 }}>
+              Novo Item
+            </Button>
+            <Button variant="contained" color="secondary" onClick={() => navigate("/itens")} sx={{ mr: 1 }}>
+              Listar Itens
             </Button>
           </Box>
         </Box>
