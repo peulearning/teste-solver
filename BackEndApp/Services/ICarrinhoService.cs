@@ -3,7 +3,7 @@ namespace BackendApp.Services
 {
     public interface ICarrinhoService
     {
-        Carrinho GetCarrinho(int id);
+        Carrinho GetCarrinhoById(int id);  
         IEnumerable<Carrinho> GetAllCarrinhos();
         void AddCarrinho(Carrinho carrinho);
         void UpdateCarrinho(Carrinho carrinho);

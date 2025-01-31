@@ -29,6 +29,7 @@ builder.Services.AddScoped<ICarrinhoService, CarrinhoService>();
 
 
 
+
 // Adicionando CORS para permitir qualquer origem, método e cabeçalho
 builder.Services.AddCors(options =>
 {
