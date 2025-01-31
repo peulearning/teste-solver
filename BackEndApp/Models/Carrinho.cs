@@ -4,6 +4,7 @@ namespace BackendApp.Models
     {
         public int Id { get; set; }
         public string Identificador { get; set; } = string.Empty;
-        public ICollection<ItemCarrinho> ItensCarrinho { get; set; } = new List<ItemCarrinho>();
+        public List<ItemCarrinho> ItensCarrinho { get; set; } = new List<ItemCarrinho>(); // Relacionamento com os itens do carrinho
+
     }
 }

@@ -10,6 +10,7 @@ namespace BackendApp.Data
         }
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Item> Itens { get; set; }
+        public DbSet<Carrinho> ItensCarrinho {get; set;}
 
            protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
