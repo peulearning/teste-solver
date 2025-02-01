@@ -9,6 +9,7 @@ import ListaItens from "./components/ListaItens"
 import AtualizacaoItem from "./components/AtualizacaoItem"
 import CadastroCarrinho from "./components/CadastroCarrinho"
 import ListaCarrinho from "./components/ListaCarrinho"
+import AtualizacaoCarrinho from "./components/AtualizacaoCarrinho"
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/itens/atualizar/:id" element={<AtualizacaoItem />} />
           <Route path="/carrinhos/novo" element={<CadastroCarrinho />} />
           <Route path="/carrinhos" element={<ListaCarrinho />} />
+          <Route path="/carrinhos/atualizar/:id" element={<AtualizacaoCarrinho />} />
         </Routes>
       </Box>
     </Router>

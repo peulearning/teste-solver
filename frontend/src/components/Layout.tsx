@@ -30,7 +30,7 @@ function Layout({ children }: LayoutProps) {
   const menuItems = [
     { text: "Produtos", icon: ProductIcon, path: "/" },
     { text: "Itens", icon: ItemIcon, path: "/itens" },
-    { text: "Carrinho", icon: CartIcon, path: "/carrinho" },
+    { text: "Carrinho", icon: CartIcon, path: "/carrinhos" },
     { text: "Configurações", icon: SettingsIcon, path: "/configuracoes" },
   ]
 
