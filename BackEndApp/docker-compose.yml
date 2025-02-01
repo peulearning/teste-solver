@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Serviço para o Backend - API (C#)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: backendapp
+    ports:
+      - "5000:80"  # Mapear a porta 5000 da máquina para a porta 80 do contêiner
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=todofullstack;User=root;Password=
+    depends_on:
+      - db  # Espera o serviço db (MySQL) iniciar primeiro
+
+  # Serviço para o Frontend - React (com Vite)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontendapp
+    ports:
+      - "3000:80"  # Mapear a porta 3000 da máquina para a porta 80 do contêiner
+    depends_on:
+      - backend  # Espera o serviço backend (API) iniciar primeiro
+
+  # Serviço para o Banco de Dados - MySQL
+  db:
+    image: mysql:8
+    container_name: todofullstack-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ""  # Senha em branco para o root (sem senha)
+      MYSQL_DATABASE: todofullstack  # Nome do banco de dados
+    ports:
+      - "3306:3306"  # Mapear a porta 3306 da máquina para a porta 3306 do contêiner
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persistência de dados
+
+# Volumes para persistir os dados do banco de dados
+volumes:
+  mysql-data:
