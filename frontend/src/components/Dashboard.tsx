@@ -1,166 +1,137 @@
-import { useState } from "react"
-import {
-  Typography,
-  Box,
-  IconButton,
-  Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
-  Drawer,
-  List as MuiList,
-  ListItemButton,
-} from "@mui/material"
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Inventory as ProductIcon,
-  ShoppingCart as CartIcon,
-  List as ItemIcon,
-  Settings as SettingsIcon,
-} from "@mui/icons-material"
-import { styled } from "@mui/material/styles"
-import { useNavigate } from "react-router-dom"
-import { useProductContext } from "../contexts/ProductContext"
+import { useState, useEffect } from "react"
+import { Typography, Grid, Paper, Box, CircularProgress, Button } from "@mui/material"
+import { Link, useNavigate } from "react-router-dom"
+import Layout from "./Layout"
+import axios from "axios"
 
-const StyledDrawer = styled(Drawer)({
-  width: 240,
-  flexShrink: 0,
-  "& .MuiDrawer-paper": {
-    width: 240,
-    boxSizing: "border-box",
-    backgroundColor: "#f8f7fa",
-  },
-})
-
-const StyledListItem = styled(ListItem)({
-  backgroundColor: "#ffffff",
-  marginBottom: "8px",
-  borderRadius: "8px",
-  "&:hover": {
-    backgroundColor: "#f5f5f5",
-  },
-})
-
-const CategoryLabel = styled(Box)({
-  backgroundColor: "#ffe4e4",
-  color: "#666",
-  padding: "2px 8px",
-  borderRadius: "12px",
-  fontSize: "0.75rem",
-  display: "inline-flex",
-  alignItems: "center",
-  marginLeft: "8px",
-})
+interface DashboardCounts {
+  products: number
+  items: number
+  carts: number
+}
 
 function Dashboard() {
-  const { products, deleteProduct } = useProductContext()
+  const [counts, setCounts] = useState<DashboardCounts>({ products: 0, items: 0, carts: 0 })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
-  // eslint-disable-next-line no-empty-pattern
-  const [] = useState("all")
 
-  const handleEdit = (id: number) => {
-    navigate(`/atualizar/${id}`)
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const [productsResponse, itemsResponse, cartsResponse] = await Promise.all([
+          axios.get("http://localhost:5220/api/produto"),
+          axios.get("http://localhost:5220/api/item"),
+          axios.get("http://localhost:5220/api/carrinho"),
+        ])
+
+        setCounts({
+          products: productsResponse.data.length,
+          items: itemsResponse.data.length,
+          carts: cartsResponse.data.length,
+        })
+        setError(null)
+      } catch (err) {
+        console.error("Erro ao carregar contagens:", err)
+        setError("Erro ao carregar dados. Por favor, tente novamente.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCounts()
+  }, [])
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <CircularProgress />
+        </Box>
+      </Layout>
+    )
   }
 
-  const handleDelete = (id: number) => {
-    deleteProduct(id)
+  if (error) {
+    return (
+      <Layout>
+        <Typography color="error">{error}</Typography>
+      </Layout>
+    )
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <StyledDrawer variant="permanent">
-        <Box sx={{ p: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
-            <ProductIcon sx={{ fontSize: 32, color: "#ed3a79" }} />
-            <Typography variant="h6" sx={{ ml: 1, color: "#ed3a88" }}>
-              MarketPlace
+    <Layout>
+      <Typography variant="h4" gutterBottom>
+        Dashboard
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid item xs={12} sm={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
+              <Typography variant="h6">Produtos</Typography>
+              <Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate("/cadastro")}
+                  sx={{ mr: 1 }}
+                >
+                  Novo Produto
+                </Button>
+                <Button component={Link} to="/produtos" variant="contained" color="primary" sx={{ mr: 1 }}>
+                  Listar Produto
+                </Button>
+              </Box>
+            </Box>
+            <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+              Total: {counts.products}
             </Typography>
-          </Box>
-          <MuiList>
-            <ListItemButton selected onClick={() => navigate("/produtos")}>
-              <ListItemIcon>
-                <ProductIcon sx={{ color: "#ed3a7c" }} />
-              </ListItemIcon>
-              <ListItemText primary="Produtos" sx={{ color: "#ed3a64" }} />
-            </ListItemButton>
-            <ListItemButton onClick={() => navigate("/itens")}>
-              <ListItemIcon>
-                <ItemIcon />
-              </ListItemIcon>
-              <ListItemText primary="Itens" />
-            </ListItemButton>
-            <ListItemButton onClick={() => navigate("/carrinho")}>
-              <ListItemIcon>
-                <CartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Carrinho" />
-            </ListItemButton>
-            <ListItemButton onClick={() => navigate("/configuracoes")}>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Configurações" />
-            </ListItemButton>
-          </MuiList>
-        </Box>
-      </StyledDrawer>
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="h4" gutterBottom sx={{ color: "#4a4a4a" }}>
-          Gerenciamento de Produtos
-        </Typography>
-
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
-          <Typography variant="h6">Produtos</Typography>
-          <Box>
-            <Button variant="contained" color="primary" onClick={() => navigate("/cadastro")} sx={{ mr: 1 }}>
-              Novo Produto
-            </Button>
-            <Button variant="contained" color="primary" onClick={() => navigate("/produtos")} sx={{ mr: 1 }}>
-              Listar Produto
-            </Button>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
-          <Typography variant="h6">Itens</Typography>
-          <Box>
-            <Button variant="contained" color="secondary" onClick={() => navigate("/itens/cadastro")} sx={{ mr: 1 }}>
-              Novo Item
-            </Button>
-            <Button variant="contained" color="secondary" onClick={() => navigate("/itens")} sx={{ mr: 1 }}>
-              Listar Itens
-            </Button>
-          </Box>
-        </Box>
-
-        <List>
-          {products.map((product) => (
-            <StyledListItem key={product.id}>
-              <ListItemText
-                primary={
-                  <Box component="span">
-                    {product.name}
-                    <CategoryLabel>R$ {product.price}</CategoryLabel>
-                  </Box>
-                }
-              />
-              <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="edit" size="small" onClick={() => handleEdit(product.id)}>
-                  <EditIcon fontSize="small" />
-                </IconButton>
-                <IconButton edge="end" aria-label="delete" size="small" onClick={() => handleDelete(product.id)}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </StyledListItem>
-          ))}
-        </List>
-      </Box>
-    </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
+              <Typography variant="h6">Itens</Typography>
+              <Box>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => navigate("/itens/cadastro")}
+                  sx={{ mr: 1 }}
+                >
+                  Novo Item
+                </Button>
+                <Button variant="contained" color="secondary" onClick={() => navigate("/itens")} sx={{ mr: 1 }}>
+                  Listar Itens
+                </Button>
+              </Box>
+            </Box>
+            <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+              Total: {counts.items}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, alignItems: "center" }}>
+              <Typography variant="h6">Carrinhos</Typography>
+              <Box>
+                <Button variant="contained" color="warning" onClick={() => navigate("/carrinhos/novo")} sx={{ mr: 1 }}>
+                  Novo Carrinho
+                </Button>
+                <Button variant="contained" color="warning" onClick={() => navigate("/carrinhos")} sx={{ mr: 1 }}>
+                  Listar Carrinho
+                </Button>
+              </Box>
+            </Box>
+            <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+              Total: {counts.carts}
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Layout>
   )
 }
 

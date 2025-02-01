@@ -1,0 +1,27 @@
+# Etapa de Build (compilação e preparação do React)
+FROM node:18 AS build
+
+# Definir diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copiar o arquivo de dependências do frontend e instalar as dependências
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copiar o restante do código-fonte
+COPY . ./
+
+# Rodar o build do React para produção
+RUN npm run build
+
+# Etapa de Execução (Imagem Base para servir o React)
+FROM nginx:alpine
+
+# Copiar os arquivos compilados para o diretório de onde o Nginx serve os arquivos
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expor a porta 80 para a aplicação
+EXPOSE 80
+
+# Iniciar o Nginx
+CMD ["nginx", "-g", "daemon off;"]
