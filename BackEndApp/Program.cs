@@ -24,6 +24,11 @@ builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
 
+builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+builder.Services.AddScoped<ICarrinhoService, CarrinhoService>();
+
+
+
 
 // Adicionando CORS para permitir qualquer origem, método e cabeçalho
 builder.Services.AddCors(options =>
